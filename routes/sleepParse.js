@@ -8,8 +8,8 @@ router.post('/',async (req,res)=> {
     const async1 =  ()=>{
         return new Promise((fulfilled,rejected)=>{
             puppeteer.launch({headless: true}).then(async browser => {
-                const page = await browser.newPage();
-                await page.goto(url);
+                const page = await browser.newPage().catch();
+                await page.goto(url).catch();
                 try {
                     await page.waitForSelector('h1');
                     await page.waitForSelector('ytd-video-owner-renderer div ytd-channel-name div div yt-formatted-string a')
