@@ -2,7 +2,6 @@ const express = require('express')
 const router = express.Router()
 const Promise = require('es6-promise'); // npm install es6-promise
 const puppeteer = require('puppeteer'); // npm install puppeteer
-
 router.post('/',async (req,res)=> {
     let url = req.body.link[0]
     const async1 =  ()=>{
