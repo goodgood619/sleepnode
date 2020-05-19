@@ -25,18 +25,8 @@ router.post('/youtube',async (req,res)=>{
             return {linkTitle,linkChannel}
         })
         one.then(ret => {
-            let linkAddress = "", data=""
             const thumbnail = youtubeThumbnail(url).high.url
-
-            if(url.match("watch")){
-                linkAddress = url.substring(url.indexOf('=')+1,url.size);
-                data = 'https://www.youtube.com/embed/' + linkAddress
-            }
-            else {
-                linkAddress = url.substring(url.indexOf('.be')+4,url.size)
-                data = 'https://www.youtube.com/embed/' + linkAddress
-            }
-            res.json({linkTitle: ret.linkTitle, linkChannel : ret.linkChannel,linkAddress : data,
+            res.json({linkTitle: ret.linkTitle, linkChannel : ret.linkChannel,linkAddress : url,
             thumbnailUrl : thumbnail})
         })
             .catch(err=> {
