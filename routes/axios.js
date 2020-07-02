@@ -13,56 +13,40 @@ router.post('/youtube',async (req,res)=>{
     //         console.log(e)
     //     }
     // };
-    const async1 =  ()=>{
-        return new Promise((fulfilled,rejected)=>{
-            puppeteer.launch({headless: true}).then(async browser => {
-                const page = await browser.newPage();
-                await page.goto(url);
-                try {
-                    await page.waitForSelector('h1');
-                    await page.waitForSelector('ytd-video-owner-renderer div ytd-channel-name div div yt-formatted-string a');
-                    const title = await page.evaluate(()=> document.querySelector('h1').textContent);
-                    const who = await page.evaluate(()=>document.querySelector('ytd-video-owner-renderer div ytd-channel-name div div yt-formatted-string a').textContent);
-                    // console.log(title)
-                    // console.log(who)
-                    fulfilled({title,who})
-                }
-                catch(err){
-                    // console.log(err)
-                    rejected(err)
-                }
-            })
-        })
-    };
-    async1().then(({title,who})=>{
-        const thumbnail = youtubeThumbnail(url).high.url
-        res.json({linkTitle: title, linkChannel : who,linkAddress : url,
-            thumbnailUrl : thumbnail})
-    }).catch((error)=>{
-        console.log(error)
-        res.json({err :error})
-    })
-    // const one = getHtml()
-    //     .then(html=> {
-    //         const $ = cheerio.load(html.data);
-    //         let linkTitle="", linkChannel = "";
-    //         $('h1 > span').each(function (i,e) {
-    //             linkTitle = $(e).text().slice(5,$(e).text().length-3);
+    // const async1 =  ()=>{
+    //     return new Promise((fulfilled,rejected)=>{
+    //         puppeteer.launch({headless: true}).then(async browser => {
+    //             const page = await browser.newPage();
+    //             await page.goto(url);
+    //             try {
+    //                 await page.waitForSelector('h1');
+    //                 await page.waitForSelector('ytd-video-owner-renderer div ytd-channel-name div div yt-formatted-string a');
+    //                 const title = await page.evaluate(()=> document.querySelector('h1').textContent);
+    //                 const who = await page.evaluate(()=>document.querySelector('ytd-video-owner-renderer div ytd-channel-name div div yt-formatted-string a').textContent);
+    //                 // console.log(title)
+    //                 // console.log(who)
+    //                 fulfilled({title,who})
+    //             }
+    //             catch(err){
+    //                 // console.log(err)
+    //                 rejected(err)
+    //             }
     //         })
-    //         $('div > div > div > div > div > div > div > div > div > div > div > a').each(function (i,e) {
-    //             linkChannel = $(e).text()
-    //         })
-    //         return {linkTitle,linkChannel}
     //     })
-    //     one.then(ret => {
-    //         const thumbnail = youtubeThumbnail(url).high.url
-    //         console.log(ret)
-    //         res.json({linkTitle: ret.linkTitle, linkChannel : ret.linkChannel,linkAddress : url,
+    // };
+    // async1().then(({title,who})=>{
+    //     const thumbnail = youtubeThumbnail(url).high.url
+    //     res.json({linkTitle: title, linkChannel : who,linkAddress : url,
     //         thumbnailUrl : thumbnail})
-    //     })
-    //         .catch(err=> {
-    //             console.log(err)
-    //         })
+    // }).catch((error)=>{
+    //     console.log(error)
+    //     res.json({err :error})
+    // })
+    const thumbnail = youtubeThumbnail(url).high.url
+    await res.json({
+        linkAddress: url,
+        thumbnailUrl: thumbnail
+    })
 })
 
 router.post('/twitch',async (req,res)=>{
